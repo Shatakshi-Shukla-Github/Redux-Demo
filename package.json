@@ -12,6 +12,7 @@
   "type": "commonjs",
   "dependencies": {
     "immer": "^11.1.21",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "redux-logger": "^3.0.6"
   }
 }

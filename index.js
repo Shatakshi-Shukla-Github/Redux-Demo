@@ -1,98 +1,108 @@
-// const redux = require('redux');
-// const { createStore } = require("redux")
-// const combineReducer = redux.combineReducers
-// const CAKE_ORDERED = "CAKE_ORDERED";
-// const CAKE_RESTOCKED = "CAKE_RESTOCKED";
-// const ICECREAM_ORDERED = "ICECREAM_ORDERED";
-// const ICECREAM_RESTOCKED = "ICECREAM_RESTOCKED";
+const redux = require('redux');
+const { createStore } = require("redux")
+const combineReducer = redux.combineReducers
+const CAKE_ORDERED = "CAKE_ORDERED";
+const CAKE_RESTOCKED = "CAKE_RESTOCKED";
+const ICECREAM_ORDERED = "ICECREAM_ORDERED";
+const ICECREAM_RESTOCKED = "ICECREAM_RESTOCKED";
 
-// //Action
-// function orderCake() {
-//     return {
-//         type: CAKE_ORDERED,
-//         quantity: 1
-//     }
-// }
-// function restockCake(quantity) {
-//     return {
-//         type: CAKE_RESTOCKED,
-//         payload: quantity,
-//     }
-// }
-// function orderIceCream() {
-//     return {
-//         type: ICECREAM_ORDERED,
-//         quantity: 1
-//     }
-// }
-// function restockIceCream(quantity) {
-//     return {
-//         type: ICECREAM_RESTOCKED,
-//         payload: quantity,
-//     }
-// }
+//It is used to apply middleware to the store. Middleware is a way to extend Redux with custom functionality. It provides a third-party extension point between dispatching an action and the moment it reaches the reducer.
+const applyMiddleware = redux.applyMiddleware
 
-// const initialCakeState = {
-//     numOfCakes: 10
-// }
+const reduxLogger = require('redux-logger')
 
-// const initialIceCreamState = {
-//     numOfIceCreams: 10
-// }
 
-// //Reducers
-// const cakeReducer = (state = initialCakeState, action) => {
-//     switch (action.type) {
-//         case CAKE_ORDERED:
-//             return {
-//                 ...state,
-//                 numOfCakes: state.numOfCakes - 1
-//             }
-//         case CAKE_RESTOCKED:
-//             return {
-//                 ...state,
-//                 numOfCakes: state.numOfCakes + action.payload
-//             }
-//         default:
-//             return state
-//     }
-// }
-// const iceCreamReducer = (state = initialIceCreamState, action) => {
-//     switch (action.type) {
-//         case ICECREAM_ORDERED:
-//             return {
-//                 ...state,
-//                 numOfIceCreams: state.numOfIceCreams - 1
-//             }
-//         case ICECREAM_RESTOCKED:
-//             return {
-//                 ...state,
-//                 numOfIceCreams: state.numOfIceCreams + action.payload
-//             }
-//         default:
-//             return state
-//     }
-// }
+//This the logger middleware which will log the action and state after every dispatch.
+const logger = reduxLogger.createLogger()
 
-// const rootReducer = combineReducer({
-//     cake: cakeReducer,
-//     iceCream: iceCreamReducer
-// })
 
-// const store = createStore(rootReducer)
-// console.log("Initial state", store.getState())
+//Action
+function orderCake() {
+    return {
+        type: CAKE_ORDERED,
+        quantity: 1
+    }
+}
+function restockCake(quantity) {
+    return {
+        type: CAKE_RESTOCKED,
+        payload: quantity,
+    }
+}
+function orderIceCream() {
+    return {
+        type: ICECREAM_ORDERED,
+        quantity: 1
+    }
+}
+function restockIceCream(quantity) {
+    return {
+        type: ICECREAM_RESTOCKED,
+        payload: quantity,
+    }
+}
 
-// const unsubscribe = store.subscribe(() => console.log("Updated State ", store.getState()))
+const initialCakeState = {
+    numOfCakes: 10
+}
 
-// store.dispatch(orderCake())
-// store.dispatch(orderCake())
-// store.dispatch(orderCake())
-// store.dispatch(restockCake(3))
+const initialIceCreamState = {
+    numOfIceCreams: 10
+}
 
-// store.dispatch(orderIceCream())
-// store.dispatch(orderIceCream())
-// store.dispatch(restockIceCream(2))
-// unsubscribe()
+//Reducers
+const cakeReducer = (state = initialCakeState, action) => {
+    switch (action.type) {
+        case CAKE_ORDERED:
+            return {
+                ...state,
+                numOfCakes: state.numOfCakes - 1
+            }
+        case CAKE_RESTOCKED:
+            return {
+                ...state,
+                numOfCakes: state.numOfCakes + action.payload
+            }
+        default:
+            return state
+    }
+}
+const iceCreamReducer = (state = initialIceCreamState, action) => {
+    switch (action.type) {
+        case ICECREAM_ORDERED:
+            return {
+                ...state,
+                numOfIceCreams: state.numOfIceCreams - 1
+            }
+        case ICECREAM_RESTOCKED:
+            return {
+                ...state,
+                numOfIceCreams: state.numOfIceCreams + action.payload
+            }
+        default:
+            return state
+    }
+}
+
+const rootReducer = combineReducer({
+    cake: cakeReducer,
+    iceCream: iceCreamReducer
+})
+
+const store = createStore(rootReducer, applyMiddleware(logger))
+console.log("Initial state", store.getState())
+
+const unsubscribe = store.subscribe(() => { })
+
+store.dispatch(orderCake())
+store.dispatch(orderCake())
+store.dispatch(orderCake())
+store.dispatch(restockCake(3))
+
+store.dispatch(orderIceCream())
+store.dispatch(orderIceCream())
+store.dispatch(restockIceCream(2))
+unsubscribe()
 
 
 //Complete Flow of Redux
