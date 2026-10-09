@@ -134,4 +134,9 @@ unsubscribe()
 //#Note:- subscribe() returns a function and that returned function isstored in unsubscribe.
 
 //#Note:- orderCake() is the action creator . The object it returns is the action. This action is then passed to Reducer for processing. The reducer simply calculates the new state. When the reducer calculates the new state , the Store updates its state and then the listener registered by subscribe() will be notified and thereby the getState() inside this listener will give you the current state.
-// In our case listener registered by subscribe() is this:- "() => console.log("Updated State ", store.getState())" and inside this listener there is a getState() which will give you the current state of the store. So when we dispatch an action , the reducer calculates the new state and then the listener registered by subscribe() will be notified and thereby the getState() inside this listener will give you the current state. 
+// In our case listener registered by subscribe() is this:- "() => console.log("Updated State ", store.getState())" and inside this listener there is a getState() which will give you the current state of the store. So when we dispatch an action , the reducer calculates the new state and then the listener registered by subscribe() will be notified and thereby the getState() inside this listener will give you the current state.
+
+//Middleware:-
+//Middleware provides a custom extension point in the dispatch flow, where we can perform things like logging, async handling, authentication checks, analytics, etc.
+
+//Redux-logger is a middleware that logs actions and state changes in the console.
